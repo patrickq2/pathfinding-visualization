@@ -5,5 +5,8 @@
 int main() {
 
     sfWindow userWindow;
+    while (!userWindow.quit()) {
+        userWindow.update();
+    }
     return 0;
 }
