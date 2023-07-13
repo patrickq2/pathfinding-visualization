@@ -1,3 +1,4 @@
+#include "graph.h"
 #include <SFML/Graphics.hpp>
 #pragma once
 
@@ -6,6 +7,7 @@ class sfWindow {
     sf::Event event;
     sf::Mouse mouse;
     bool quitGame;
+    graph maze;
     public:
     sfWindow();
     void update();
@@ -14,16 +16,14 @@ class sfWindow {
 };
 
 sfWindow::sfWindow() :
-window(sf::VideoMode(300,300),"test")
+window(sf::VideoMode(25*32,25*32),"test")
 {
     quitGame = false;
 }
 
 void sfWindow::update() {
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
     window.clear();
-    window.draw(shape);
+    maze.update(window);
     window.display();
 }
 
