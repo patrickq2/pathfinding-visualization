@@ -1,13 +1,13 @@
-#include "cell.h"
+/*#include "cell.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
 #pragma once
 
-class graph {
-    std::vector<std::vector<cell>> cells;
+class graph{
     public:
+    std::vector<std::vector<cell>> cells;
     graph();
-    void update(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window);
 };
 
 graph::graph() {
@@ -20,10 +20,10 @@ graph::graph() {
     }
 }
 
-void graph::update(sf::RenderWindow& window) {
+void graph::draw(sf::RenderWindow& window) {
     for (int i = 0; i < cells.size(); i++) {
         for (int j = 0; j < cells[i].size(); j++) {
             window.draw(cells[i][j].getImage());
         }
     }
-}
+}*/
