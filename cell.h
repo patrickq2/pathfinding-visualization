@@ -8,8 +8,6 @@ class cell {
     float x;
     float y;
     sf::Sprite block;
-    std::pair<int, int> endP;
-    std::pair<int, int> startP;
     public:
     cell(float x, float y);
     void update(sf::RenderWindow& window);
@@ -17,7 +15,7 @@ class cell {
     void change();
     void setStart();
     void setEnd();
-
+    void reset();
 };
 
 cell::cell(float x, float y) {
@@ -47,9 +45,16 @@ void cell::change() {
 }
 
 void cell::setStart() {
-
+    cellType = startpoint;
+    block.setTexture(TextureManager::GetTexture("start"));
 }
 
 void cell::setEnd() {
+    cellType = endpoint;
+    block.setTexture(TextureManager::GetTexture("endpoint"));
+}
 
+void cell::reset() {
+    cellType = normal;
+    block.setTexture(TextureManager::GetTexture("tile"));
 }

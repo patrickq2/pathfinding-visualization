@@ -1,15 +1,14 @@
 #include "cell.h"
+#include "graph.h"
 #include <SFML/Graphics.hpp>
 #pragma once
 
 class sfWindow {
-    enum modes {walls, points};
-    modes mode;
+    graph maze;
     sf::RenderWindow window;
     sf::Event event;
     sf::Mouse mouse;
     bool quitGame;
-    std::vector<std::vector<cell>> graph;
     public:
     sfWindow();
     void draw();
@@ -21,33 +20,17 @@ sfWindow::sfWindow() :
 window(sf::VideoMode(25*32,25*32),"test")
 {
     quitGame = false;
-    mode = walls;
-    for (int i = 0; i < 25; i++) {
-        graph.push_back(std::vector<cell>());
-        for (int j = 0; j < 25; j++) {
-            cell temp(j*32.0f, i*32.0f);
-            graph[i].push_back(temp);
-        }
-    }
 }
 
 void sfWindow::draw() {
     window.clear();
-    for (int i = 0; i < graph.size(); i++) {
-        for (int j = 0; j < graph[i].size(); j++) {
-            window.draw(graph[i][j].getImage());
-        }
-    }
+    maze.draw(window);
     window.display();
 }
 
 void sfWindow::update() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        if (mode == walls) {
-                mode = points;
-            } else {
-                mode = walls;
-            }
+        maze.changeMode();
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
@@ -61,8 +44,10 @@ void sfWindow::update() {
     }
 
     if (event.type == sf::Event::MouseButtonPressed) {
+        sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+        maze.update(mousePos, event);
+        /*
         if (mode == walls) {
-            sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
             if (event.mouseButton.button == sf::Mouse::Left) {
                 for (int i = 0; i < graph.size(); i++) {
                     for (int j = 0; j < graph[i].size(); j++) {
@@ -74,8 +59,25 @@ void sfWindow::update() {
             }
         }
         if (mode == points) {
-
-        }
+            if (event.mouseButton.button == sf::Mouse::Left) { // set start point
+                for (int i = 0; i < graph.size(); i++) {
+                    for (int j = 0; j < graph[i].size(); j++) {
+                        if (graph[i][j].getImage().getGlobalBounds().contains(mousePos)) {
+                            graph[][]
+                            graph[i][j].setStart();
+                        }
+                    }
+                }
+            } else if (event.mouseButton.button == sf::Mouse::Right) { // set end point
+                for (int i = 0; i < graph.size(); i++) {
+                    for (int j = 0; j < graph[i].size(); j++) {
+                        if (graph[i][j].getImage().getGlobalBounds().contains(mousePos)) {
+                            graph[i][j].setEnd();
+                        }
+                    }
+                }
+            }
+        }*/
         event.type = sf::Event::MouseButtonReleased;
     }
 }
