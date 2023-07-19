@@ -1,27 +1,49 @@
+#include <vector>
 #include "TextureManager.h"
 #include <SFML/Graphics.hpp>
 #pragma once
 
 class cell {
-    enum cellOpt {normal, wall, startpoint, endpoint, searched};
+    public:
+    int arrX;
+    int arrY;
+    enum cellOpt {normal, wall, startpoint, endpoint, searched, searching, path};
+    cell(float x, float y , int arrx, int arry);
+    sf::Sprite getImage();
+    cellOpt getCellType();
+    bool getVisited();
+    cell* getParent();
+    std::vector<cell*> getNeighbors();
+    void update(sf::RenderWindow& window);
+    void change();
+    void setStart();
+    void setEnd();
+    void showPath();
+    void fullReset();
+    void showSearched();
+    void showsearching();
+    void setParent(cell* parent);
+    void setVisited(bool visited);
+    void setNeighbors(cell* neighbor);
+    std::vector<cell*> neighbors;
+    private:
+    cell* parent;
+    bool visited;
     cellOpt cellType;
     float x;
     float y;
     sf::Sprite block;
-    public:
-    cell(float x, float y);
-    void update(sf::RenderWindow& window);
-    sf::Sprite getImage();
-    void change();
-    void setStart();
-    void setEnd();
-    void reset();
+
 };
 
-cell::cell(float x, float y) {
+cell::cell(float x, float y, int arrx, int arry) {
     cellType = normal;
     this->x = x;
     this->y = y;
+    arrX = arrx;
+    arrY = arry;
+    visited = false;
+    parent = nullptr;
     block.setTexture(TextureManager::GetTexture("tile"));
     block.setPosition(x,y);
 }
@@ -34,6 +56,22 @@ sf::Sprite cell::getImage(){
     return block;
 }
 
+cell::cellOpt cell::getCellType() {
+    return cellType;
+}
+
+cell* cell::getParent() {
+    return parent;
+}
+
+bool cell::getVisited() {
+    return visited;
+}
+
+std::vector<cell*> cell::getNeighbors() {
+    return neighbors;
+}
+
 void cell::change() {
     if (cellType == normal) {
         cellType = wall;
@@ -42,6 +80,14 @@ void cell::change() {
         cellType = normal;
         block.setTexture(TextureManager::GetTexture("tile"));
     }
+}
+
+void cell::setVisited(bool visited) {
+    this->visited = visited;
+}
+
+void cell::setNeighbors(cell* neighbor) {
+    neighbors.push_back(neighbor);
 }
 
 void cell::setStart() {
@@ -54,7 +100,28 @@ void cell::setEnd() {
     block.setTexture(TextureManager::GetTexture("endpoint"));
 }
 
-void cell::reset() {
+void cell::setParent(cell* parent) {
+    this->parent = parent;
+}
+
+void cell::showSearched() {
+    cellType = searched;
+    block.setTexture(TextureManager::GetTexture("searched"));
+}
+
+void cell::showsearching() {
+    cellType = searching;
+    block.setTexture(TextureManager::GetTexture("searching"));
+}
+
+void cell::showPath() {
+    cellType = path;
+    block.setTexture(TextureManager::GetTexture("path"));
+}
+
+void cell::fullReset() {
     cellType = normal;
+    visited = false;
     block.setTexture(TextureManager::GetTexture("tile"));
+    parent = nullptr;
 }

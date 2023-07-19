@@ -1,4 +1,4 @@
 make:
-	g++ -c main.cpp 
-	g++ main.o -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
+	g++ -c -g main.cpp 
+	g++ -g main.o -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
 	./sfml-app
