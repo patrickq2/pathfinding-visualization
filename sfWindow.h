@@ -36,20 +36,25 @@ void sfWindow::update() {
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-        maze.reset();
+        maze.fullReset();
         lock = false;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         // A star
+        lock = true;
+        maze.pReset();
+        maze.aStar(window);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         // Dijkstra
         lock = true;
+        maze.pReset();
         maze.dijkstra(window);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
         //BFS
         lock = true;
+        maze.pReset();
         maze.BFS(window);
     }
     if (!lock) {

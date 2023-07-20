@@ -19,7 +19,7 @@ class cell {
     void setStart();
     void setEnd();
     void showPath();
-    void fullReset();
+    void reset();
     void showSearched();
     void showsearching();
     void setParent(cell* parent);
@@ -119,9 +119,10 @@ void cell::showPath() {
     block.setTexture(TextureManager::GetTexture("path"));
 }
 
-void cell::fullReset() {
+void cell::reset() {
     cellType = normal;
     visited = false;
     block.setTexture(TextureManager::GetTexture("tile"));
     parent = nullptr;
 }
+

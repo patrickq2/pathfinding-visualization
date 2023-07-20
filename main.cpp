@@ -1,4 +1,3 @@
-#include "cell.h"
 #include "sfWindow.h"
 
 
